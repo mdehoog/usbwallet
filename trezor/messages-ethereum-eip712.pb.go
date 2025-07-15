@@ -112,6 +112,7 @@ type EthereumSignTypedData struct {
 	PrimaryType      *string                `protobuf:"bytes,2,req,name=primary_type,json=primaryType" json:"primary_type,omitempty"`                         // name of the root message struct
 	MetamaskV4Compat *bool                  `protobuf:"varint,3,opt,name=metamask_v4_compat,json=metamaskV4Compat,def=1" json:"metamask_v4_compat,omitempty"` // use MetaMask v4 (see https://github.com/MetaMask/eth-sig-util/issues/106)
 	Definitions      *EthereumDefinitions   `protobuf:"bytes,4,opt,name=definitions" json:"definitions,omitempty"`                                            // network and/or token definitions
+	ShowMessageHash  []byte                 `protobuf:"bytes,5,opt,name=show_message_hash,json=showMessageHash" json:"show_message_hash,omitempty"`           // hash of the typed data to be signed (if set, user will be asked to confirm before signing)
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
@@ -175,6 +176,13 @@ func (x *EthereumSignTypedData) GetMetamaskV4Compat() bool {
 func (x *EthereumSignTypedData) GetDefinitions() *EthereumDefinitions {
 	if x != nil {
 		return x.Definitions
+	}
+	return nil
+}
+
+func (x *EthereumSignTypedData) GetShowMessageHash() []byte {
+	if x != nil {
+		return x.ShowMessageHash
 	}
 	return nil
 }
@@ -495,12 +503,13 @@ var File_messages_ethereum_eip712_proto protoreflect.FileDescriptor
 
 const file_messages_ethereum_eip712_proto_rawDesc = "" +
 	"\n" +
-	"\x1emessages-ethereum-eip712.proto\x12\"hw.trezor.messages.ethereum_eip712\x1a\x17messages-ethereum.proto\"\xdf\x01\n" +
+	"\x1emessages-ethereum-eip712.proto\x12\"hw.trezor.messages.ethereum_eip712\x1a\x17messages-ethereum.proto\"\x8b\x02\n" +
 	"\x15EthereumSignTypedData\x12\x1b\n" +
 	"\taddress_n\x18\x01 \x03(\rR\baddressN\x12!\n" +
 	"\fprimary_type\x18\x02 \x02(\tR\vprimaryType\x122\n" +
 	"\x12metamask_v4_compat\x18\x03 \x01(\b:\x04trueR\x10metamaskV4Compat\x12R\n" +
-	"\vdefinitions\x18\x04 \x01(\v20.hw.trezor.messages.ethereum.EthereumDefinitionsR\vdefinitions\"4\n" +
+	"\vdefinitions\x18\x04 \x01(\v20.hw.trezor.messages.ethereum.EthereumDefinitionsR\vdefinitions\x12*\n" +
+	"\x11show_message_hash\x18\x05 \x01(\fR\x0fshowMessageHash\"4\n" +
 	"\x1eEthereumTypedDataStructRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x02(\tR\x04name\"\xb4\x05\n" +
 	"\x1aEthereumTypedDataStructAck\x12m\n" +
